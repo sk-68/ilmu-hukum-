@@ -115,6 +115,25 @@
       color: #28a745;
       margin-bottom: 10px;
     }
+    .greeting {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #000000;
+    }
+    .superadmin-controls {
+      margin: 20px 0;
+      padding: 15px;
+      background: rgba(220, 53, 69, 0.1);
+      border-radius: 10px;
+    }
+    .edit-btn {
+      background-color: #6c757d;
+      margin-right: 5px;
+    }
+    .save-btn {
+      background-color: #28a745;
+    }
   </style>
 </head>
 <body>
@@ -135,65 +154,100 @@
   <input type="password" id="password" placeholder="Password" /><br /><br />
   <button onclick="login()">Masuk</button>
   <p id="loginError"></p>
+  
+  <!-- Informasi login dosen -->
+  <div style="margin-top: 20px; text-align: left; font-size: 14px; color: #555;">
+    <p><strong>Contoh login:</strong></p>
+    <ul style="list-style-type: none; padding-left: 10px;">
+      <li>Superadmin: <strong>superadmin</strong> Password: <strong>super123</strong></li>
+      <li>Username: <strong>pak agan</strong> Password: <strong>123</strong> (Pak Agan Sutanto)</li>
+      <li>Username: <strong>bu elvina</strong> Password: <strong>123</strong> (Bu Elvina Melinda)</li>
+      <li>Username: <strong>pak muarifudin</strong> Password: <strong>123</strong> (Pak Muarifudin)</li>
+      <li>Username: <strong>bu dina</strong> Password: <strong>123</strong> (Bu Dina Ulaya)</li>
+      <li>Username: <strong>bu kusroh</strong> Password: <strong>123</strong> (Bu Kusroh Lailiyah)</li>
+    </ul>
+  </div>
 </div>
 
 <div class="absensi" id="absensiBox" style="display:none;">
+  <div id="greetingMessage" class="greeting"></div>
   <div id="welcomeMessage" class="welcome-message"></div>
   <div id="roleInfo" class="role-info"></div>
   <div id="dosenInfo" class="dosen-info"></div>
   <div id="datetimeAbsensi"></div>
   <div id="infoPertemuanAbsensi" class="info-pertemuan"></div>
+  
+  <div id="superadminControls" class="superadmin-controls" style="display:none;">
+    <h3>Superadmin Controls</h3>
+    <button onclick="enableEditMode()" class="edit-btn">Edit Mode</button>
+    <button onclick="saveChanges()" class="save-btn" style="display:none;">Save Changes</button>
+    <button onclick="editKalender()" class="edit-btn">Edit Kalender</button>
+  </div>
+  
   <h2>Data Absensi</h2>
   <div id="tables"></div>
   <button onclick="logout()">Logout</button>
 </div>
 
 <script>
-  // Data pengguna dengan tambahan gender untuk dosen
+  // Data pengguna
   const users = {
+    // Superadmin
+    superadmin: { 
+      password: 'super123', 
+      role: 'superadmin', 
+      name: 'Super Administrator', 
+      title: '' 
+    },
+    
     // User admin
-    admin: { password: 'admin1', role: 'admin', name: 'Administrator' },
+    admin: { password: 'admin1', role: 'admin', name: 'Administrator', title: '' },
     
     // User mahasiswa
-    david: { password: 'david', role: 'student', name: 'David' },
-    abdu: { password: 'abdu', role: 'student', name: 'Abdu' },
-    angga: { password: 'angga', role: 'student', name: 'Angga' },
+    david: { password: 'david', role: 'student', name: 'David', title: '' },
+    abdu: { password: 'abdu', role: 'student', name: 'Abdu', title: '' },
+    angga: { password: 'angga', role: 'student', name: 'Angga', title: '' },
     
-    // User dosen dengan tambahan gender
-    agan: { 
+    // User dosen
+    'pak agan': { 
       password: '123', 
       role: 'lecturer', 
-      name: 'Agan Sutanto, S.H., M.H.',
+      name: 'Agan Sutanto',
+      title: 'S.H., M.H.',
       matkul: 'Hukum Perdata',
-      gender: 'male'
+      greeting: 'Pak'
     },
-    elvina: { 
+    'bu elvina': { 
       password: '123', 
       role: 'lecturer', 
-      name: 'Elvina Melinda, S.H., M.H.',
+      name: 'Elvina Melinda',
+      title: 'S.H., M.H.',
       matkul: ['Hukum Pidana', 'Pendidikan Kewarganegaraan', 'Sosiologi dan Ilmu Budaya Dasar'],
-      gender: 'female'
+      greeting: 'Bu'
     },
-    muarifudin: { 
+    'pak muarifudin': { 
       password: '123', 
       role: 'lecturer', 
-      name: 'Muarifudin, S.E., M.M.',
+      name: 'Muarifudin',
+      title: 'S.E., M.M.',
       matkul: 'Pendidikan Agama Islam',
-      gender: 'male'
+      greeting: 'Pak'
     },
-    dina: { 
+    'bu dina': { 
       password: '123', 
       role: 'lecturer', 
-      name: 'Dina Ulaya Aziizah, S.E., M.M.',
+      name: 'Dina Ulaya Aziizah',
+      title: 'S.E., M.M.',
       matkul: 'Bahasa Indonesia',
-      gender: 'female'
+      greeting: 'Bu'
     },
-    kusroh: { 
+    'bu kusroh': { 
       password: '123', 
       role: 'lecturer', 
-      name: 'Kusroh Lailiyah, S.H., M.H.',
+      name: 'Kusroh Lailiyah',
+      title: 'S.H., M.H.',
       matkul: 'Hukum Tata Negara',
-      gender: 'female'
+      greeting: 'Bu'
     }
   };
 
@@ -209,10 +263,21 @@
   };
 
   // KALENDER AKADEMIK 2025
-  const kalenderAkademik = {
-    startDate: new Date('2025-03-17'), // Minggu pertama 17 Maret 2025
-    secondWeek: new Date('2025-04-07'), // Minggu kedua 7 April 2025
-    endDate: new Date('2025-07-21'),    // Minggu ke-16 21 Juli 2025
+  let kalenderAkademik = {
+    pertemuan: {
+      1: new Date('2025-03-17'),
+      2: new Date('2025-04-07'),
+      9: new Date('2025-06-02'),
+      16: new Date('2025-07-21')
+    },
+    uts: {
+      start: new Date('2025-05-22'),
+      end: new Date('2025-05-28')
+    },
+    uas: {
+      start: new Date('2025-07-21'),
+      end: new Date('2025-07-27')
+    },
     holidays: [
       new Date('2025-04-18'), // Jumat Agung
       new Date('2025-05-01'), // Hari Buruh
@@ -253,7 +318,7 @@
     "Hukum Tata Negara"
   ];
 
-  const dataAbsensi = {
+  let dataAbsensi = {
     david: {
       "Pendidikan Kewarganegaraan": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
       "Pendidikan Agama Islam": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
@@ -282,6 +347,9 @@
       "Hukum Tata Negara": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] }
     }
   };
+
+  let editMode = false;
+  let editedData = {};
 
   // Fungsi untuk memeriksa apakah waktu saat ini berada dalam jam kuliah
   function isWaktuKuliah(jamKuliah) {
@@ -360,13 +428,13 @@
 
   // Fungsi Login
   function login() {
-    const user = document.getElementById('username').value.toLowerCase().trim();
+    const user = document.getElementById('username').value.trim();
     const pass = document.getElementById('password').value.trim();
     const loginError = document.getElementById('loginError');
 
-    if(users[user] && users[user].password === pass) {
+    if(users[user.toLowerCase()] && users[user.toLowerCase()].password === pass) {
       loginError.textContent = '';
-      showAbsensi(user);
+      showAbsensi(user.toLowerCase());
     } else {
       loginError.textContent = 'Username atau password salah!';
     }
@@ -377,6 +445,7 @@
     document.getElementById('absensiBox').style.display = 'none';
     document.getElementById('username').value = '';
     document.getElementById('password').value = '';
+    editMode = false;
   }
 
   function showAbsensi(user) {
@@ -390,26 +459,13 @@
     const userData = users[user];
     const userRole = userData.role;
     const userName = userData.name;
+    const userTitle = userData.title || '';
+    const userGreeting = userData.greeting || '';
 
-    // Set welcome message based on role and gender
-    let welcomePrefix = '';
-    if (userRole === 'lecturer') {
-      welcomePrefix = userData.gender === 'male' ? 'Pak' : 'Ibu';
-    }
-    
-    document.getElementById('welcomeMessage').textContent = `Selamat datang, ${welcomePrefix} ${userName}!`;
-    
-    // Set role info with appropriate title for lecturers
-    let roleTitle = '';
-    if (userRole === 'admin') {
-      roleTitle = 'Administrator';
-    } else if (userRole === 'lecturer') {
-      roleTitle = userData.gender === 'male' ? 'Dosen (Pak)' : 'Dosen (Ibu)';
-    } else {
-      roleTitle = 'Mahasiswa';
-    }
-    
-    document.getElementById('roleInfo').textContent = `Anda login sebagai: ${roleTitle}`;
+    // Set welcome message based on role
+    document.getElementById('greetingMessage').textContent = `Selamat datang, ${userGreeting} ${userName} ${userTitle}`;
+    document.getElementById('welcomeMessage').style.display = 'none';
+    document.getElementById('roleInfo').textContent = `Anda login sebagai: ${userRole === 'superadmin' ? 'Super Administrator' : userRole === 'admin' ? 'Administrator' : userRole === 'lecturer' ? 'Dosen' : 'Mahasiswa'}`;
     
     if (userRole === 'lecturer') {
       document.getElementById('dosenInfo').textContent = `Mata kuliah yang diampu: ${Array.isArray(userData.matkul) ? userData.matkul.join(', ') : userData.matkul}`;
@@ -417,8 +473,15 @@
       document.getElementById('dosenInfo').textContent = '';
     }
 
-    if (userRole === 'admin') {
-      // Tampilan untuk admin - semua data
+    // Tampilkan kontrol superadmin jika role superadmin
+    if (userRole === 'superadmin') {
+      document.getElementById('superadminControls').style.display = 'block';
+    } else {
+      document.getElementById('superadminControls').style.display = 'none';
+    }
+
+    if (userRole === 'superadmin' || userRole === 'admin') {
+      // Tampilan untuk admin/superadmin - semua data
       semuaMataKuliah.forEach(matkul => {
         const table = document.createElement('table');
         const caption = document.createElement('caption');
@@ -451,10 +514,22 @@
             const cell = row.insertCell();
             if(hadirArr.includes(p)){
               cell.textContent = "✔️";
+              if (userRole === 'superadmin' && editMode) {
+                cell.onclick = function() { toggleAttendance(nama, matkul, p, cell); };
+                cell.style.cursor = 'pointer';
+              }
             } else if(tidakHadirArr.includes(p)){
               cell.textContent = "❌";
+              if (userRole === 'superadmin' && editMode) {
+                cell.onclick = function() { toggleAttendance(nama, matkul, p, cell); };
+                cell.style.cursor = 'pointer';
+              }
             } else {
               cell.textContent = "";
+              if (userRole === 'superadmin' && editMode) {
+                cell.onclick = function() { toggleAttendance(nama, matkul, p, cell); };
+                cell.style.cursor = 'pointer';
+              }
             }
           }
         });
@@ -560,20 +635,7 @@
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     
-    if (today < kalenderAkademik.startDate) {
-      return { 
-        pertemuan: 0, 
-        status: "Belum masuk periode perkuliahan (Mulai 17 Maret 2025)" 
-      };
-    }
-    
-    if (today > kalenderAkademik.endDate) {
-      return { 
-        pertemuan: 17, 
-        status: "Perkuliahan telah berakhir (Sampai 21 Juli 2025)" 
-      };
-    }
-    
+    // Cek apakah hari ini libur nasional
     const isHoliday = kalenderAkademik.holidays.some(holiday => 
       holiday.getTime() === today.getTime()
     );
@@ -584,21 +646,134 @@
       };
     }
     
-    let weekCount;
-    
-    if (today >= kalenderAkademik.startDate && today < kalenderAkademik.secondWeek) {
-      weekCount = 1;
-    } else {
-      const diffTime = today - kalenderAkademik.secondWeek;
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      weekCount = 2 + Math.floor(diffDays / 7);
-      weekCount = Math.min(weekCount, 16);
+    // Cek periode UTS
+    if (today >= kalenderAkademik.uts.start && today <= kalenderAkademik.uts.end) {
+      return { 
+        pertemuan: -2,
+        status: "Periode Ujian Tengah Semester (22-28 Mei 2025)"
+      };
     }
+    
+    // Cek periode UAS
+    if (today >= kalenderAkademik.uas.start && today <= kalenderAkademik.uas.end) {
+      return { 
+        pertemuan: -3,
+        status: "Periode Ujian Akhir Semester (21-27 Juli 2025)"
+      };
+    }
+    
+    // Cek pertemuan berdasarkan tanggal
+    for (let pertemuan in kalenderAkademik.pertemuan) {
+      const pertemuanDate = kalenderAkademik.pertemuan[pertemuan];
+      if (today.getTime() === pertemuanDate.getTime()) {
+        return { 
+          pertemuan: parseInt(pertemuan),
+          status: `Pertemuan ke-${pertemuan}`
+        };
+      }
+    }
+    
+    // Jika tidak dalam periode khusus, hitung minggu ke berapa
+    const startDate = kalenderAkademik.pertemuan[1];
+    if (today < startDate) {
+      return { 
+        pertemuan: 0, 
+        status: "Belum masuk periode perkuliahan (Mulai 17 Maret 2025)" 
+      };
+    }
+    
+    const diffTime = today - startDate;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    let weekCount = 1 + Math.floor(diffDays / 7);
+    weekCount = Math.min(weekCount, 16);
     
     return { 
       pertemuan: weekCount,
-      status: `Pertemuan ke-${weekCount} (Minggu ke-${weekCount})`
+      status: `Minggu ke-${weekCount}`
     };
+  }
+
+  // Fungsi untuk toggle attendance (superadmin only)
+  function toggleAttendance(nama, matkul, pertemuan, cell) {
+    if (!editedData[nama]) editedData[nama] = {};
+    if (!editedData[nama][matkul]) editedData[nama][matkul] = { hadir: [], tidakHadir: [] };
+    
+    const hadirIndex = dataAbsensi[nama][matkul].hadir.indexOf(pertemuan);
+    const tidakHadirIndex = dataAbsensi[nama][matkul].tidakHadir.indexOf(pertemuan);
+    
+    if (hadirIndex !== -1) {
+      // Ubah dari hadir ke tidak hadir
+      dataAbsensi[nama][matkul].hadir.splice(hadirIndex, 1);
+      dataAbsensi[nama][matkul].tidakHadir.push(pertemuan);
+      cell.textContent = "❌";
+    } else if (tidakHadirIndex !== -1) {
+      // Ubah dari tidak hadir ke kosong
+      dataAbsensi[nama][matkul].tidakHadir.splice(tidakHadirIndex, 1);
+      cell.textContent = "";
+    } else {
+      // Ubah dari kosong ke hadir
+      dataAbsensi[nama][matkul].hadir.push(pertemuan);
+      cell.textContent = "✔️";
+    }
+    
+    // Tampilkan tombol save
+    document.querySelector('.save-btn').style.display = 'inline-block';
+  }
+
+  // Fungsi untuk enable edit mode
+  function enableEditMode() {
+    editMode = !editMode;
+    const editBtn = document.querySelector('.edit-btn');
+    const saveBtn = document.querySelector('.save-btn');
+    
+    if (editMode) {
+      editBtn.textContent = 'Cancel Edit';
+      editBtn.style.backgroundColor = '#dc3545';
+      saveBtn.style.display = 'inline-block';
+      alert('Edit Mode Aktif! Klik pada sel kehadiran untuk mengubah status.');
+    } else {
+      editBtn.textContent = 'Edit Mode';
+      editBtn.style.backgroundColor = '#6c757d';
+      saveBtn.style.display = 'none';
+    }
+    
+    // Refresh tampilan untuk menambahkan/menghapus event click
+    const user = document.getElementById('username').value.trim().toLowerCase();
+    showAbsensi(user);
+  }
+
+  // Fungsi untuk save changes
+  function saveChanges() {
+    // Dalam implementasi nyata, di sini akan ada kode untuk menyimpan ke database
+    alert('Perubahan telah disimpan!');
+    editMode = false;
+    document.querySelector('.edit-btn').textContent = 'Edit Mode';
+    document.querySelector('.edit-btn').style.backgroundColor = '#6c757d';
+    document.querySelector('.save-btn').style.display = 'none';
+  }
+
+  // Fungsi untuk edit kalender akademik
+  function editKalender() {
+    const newPertemuan1 = prompt('Masukkan tanggal Pertemuan 1 (YYYY-MM-DD):', '2025-03-17');
+    const newPertemuan2 = prompt('Masukkan tanggal Pertemuan 2 (YYYY-MM-DD):', '2025-04-07');
+    const newPertemuan9 = prompt('Masukkan tanggal Pertemuan 9 (YYYY-MM-DD):', '2025-06-02');
+    const newPertemuan16 = prompt('Masukkan tanggal Pertemuan 16 (YYYY-MM-DD):', '2025-07-21');
+    const newUTSStart = prompt('Masukkan tanggal mulai UTS (YYYY-MM-DD):', '2025-05-22');
+    const newUTSEnd = prompt('Masukkan tanggal selesai UTS (YYYY-MM-DD):', '2025-05-28');
+    const newUASStart = prompt('Masukkan tanggal mulai UAS (YYYY-MM-DD):', '2025-07-21');
+    const newUASEnd = prompt('Masukkan tanggal selesai UAS (YYYY-MM-DD):', '2025-07-27');
+    
+    if (newPertemuan1) kalenderAkademik.pertemuan[1] = new Date(newPertemuan1);
+    if (newPertemuan2) kalenderAkademik.pertemuan[2] = new Date(newPertemuan2);
+    if (newPertemuan9) kalenderAkademik.pertemuan[9] = new Date(newPertemuan9);
+    if (newPertemuan16) kalenderAkademik.pertemuan[16] = new Date(newPertemuan16);
+    if (newUTSStart) kalenderAkademik.uts.start = new Date(newUTSStart);
+    if (newUTSEnd) kalenderAkademik.uts.end = new Date(newUTSEnd);
+    if (newUASStart) kalenderAkademik.uas.start = new Date(newUASStart);
+    if (newUASEnd) kalenderAkademik.uas.end = new Date(newUASEnd);
+    
+    alert('Kalender akademik telah diperbarui!');
+    updateDateTime();
   }
 
   // Inisialisasi

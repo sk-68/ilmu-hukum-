@@ -567,51 +567,124 @@
   }
 
   // Fungsi untuk menghitung pertemuan
-  function hitungPertemuan() {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
-    if (today < kalenderAkademik.startDate) {
-      return { 
-        pertemuan: 0, 
-        status: "Belum masuk periode perkuliahan (Mulai 17 Maret 2025)" 
-      };
+  
+      <div id="statusPertemuan">Loading...</div>
+<div id="tanggalSekarang"></div>
+
+<script>
+// Kalender Akademik
+const kalenderAkademik = {
+  startDate: new Date("2025-03-17"),
+  endDate: new Date("2025-07-27"),
+  ujianMidStart: new Date("2025-05-22"),
+  ujianMidEnd: new Date("2025-05-28"),
+  ujianAkhirStart: new Date("2025-07-21"),
+  ujianAkhirEnd: new Date("2025-07-24"),
+};
+
+// Tanggal Libur Nasional + Libur Akademik
+const liburNames = {
+  "2025-03-24": "Libur Idul Fitri",
+  "2025-03-25": "Libur Idul Fitri",
+  "2025-03-26": "Libur Idul Fitri",
+  "2025-03-27": "Libur Idul Fitri",
+  "2025-03-28": "Libur Idul Fitri",
+  "2025-03-29": "Libur Idul Fitri",
+  "2025-03-30": "Libur Idul Fitri",
+  "2025-03-31": "Libur Idul Fitri",
+  "2025-04-01": "Libur Idul Fitri",
+  "2025-04-02": "Libur Idul Fitri",
+  "2025-04-03": "Libur Idul Fitri",
+  "2025-04-04": "Libur Idul Fitri",
+  "2025-04-05": "Libur Idul Fitri",
+  "2025-04-06": "Libur Idul Fitri",
+  "2025-04-18": "Libur Waisak",
+  "2025-05-01": "Libur Hari Buruh",
+  "2025-05-12": "Libur Waisak Nasional",
+  "2025-06-06": "Libur Idul Adha",
+  "2025-05-28": "Libur Setelah UTS",
+  "2025-05-29": "Libur Setelah UTS",
+  "2025-05-30": "Libur Setelah UTS",
+  "2025-05-31": "Libur Setelah UTS",
+  "2025-06-01": "Libur Setelah UTS"
+};
+
+// Jadwal Pertemuan
+const pertemuanDates = [
+  new Date("2025-03-17"), // Pertemuan 1
+  new Date("2025-04-07"), // Pertemuan 2
+  new Date("2025-04-14"), // Pertemuan 3
+  new Date("2025-04-21"), // Pertemuan 4
+  new Date("2025-04-28"), // Pertemuan 5
+  new Date("2025-05-05"), // Pertemuan 6
+  new Date("2025-05-12"), // Pertemuan 7
+  new Date("2025-05-19"), // Pertemuan 8
+  new Date("2025-06-02"), // Pertemuan 9
+  new Date("2025-06-09"), // Pertemuan 10
+  new Date("2025-06-16"), // Pertemuan 11
+  new Date("2025-06-23"), // Pertemuan 12
+  new Date("2025-06-30"), // Pertemuan 13
+  new Date("2025-07-07"), // Pertemuan 14
+  new Date("2025-07-14"), // Pertemuan 15
+  new Date("2025-07-21")  // Pertemuan 16 + UAS
+];
+
+// Fungsi bantu
+function isDateInRange(date, start, end) {
+  return date >= start && date <= end;
+}
+
+// Fungsi utama
+function hitungPertemuan() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todayStr = today.toISOString().split("T")[0];
+
+  if (today < kalenderAkademik.startDate) {
+    return { pertemuan: 0, status: "Belum masuk kuliah (Mulai 17 Maret 2025)" };
+  }
+  if (today > kalenderAkademik.endDate) {
+    return { pertemuan: 16, status: "Perkuliahan telah berakhir (Sampai 27 Juli 2025)" };
+  }
+  if (liburNames[todayStr]) {
+    return { pertemuan: -1, status: liburNames[todayStr] };
+  }
+  if (isDateInRange(today, kalenderAkademik.ujianMidStart, kalenderAkademik.ujianMidEnd)) {
+    return { pertemuan: -1, status: "Ujian Tengah Semester Genap 2024-2025" };
+  }
+  if (isDateInRange(today, kalenderAkademik.ujianAkhirStart, kalenderAkademik.ujianAkhirEnd)) {
+    return { pertemuan: -1, status: "Ujian Akhir Semester Genap 2024-2025" };
+  }
+
+  let currentPertemuan = 0;
+  for (let i = pertemuanDates.length - 1; i >= 0; i--) {
+    if (today >= pertemuanDates[i]) {
+      currentPertemuan = i + 1;
+      break;
     }
-    
-    if (today > kalenderAkademik.endDate) {
-      return { 
-        pertemuan: 17, 
-        status: "Perkuliahan telah berakhir (Sampai 21 Juli 2025)" 
-      };
-    }
-    
-    const isHoliday = kalenderAkademik.holidays.some(holiday => 
-      holiday.getTime() === today.getTime()
-    );
-    if (isHoliday) {
-      return { 
-        pertemuan: -1, 
-        status: "Hari Libur Nasional" 
-      };
-    }
-    
-    let weekCount;
-    
-    if (today >= kalenderAkademik.startDate && today < kalenderAkademik.secondWeek) {
-      weekCount = 1;
-    } else {
-      const diffTime = today - kalenderAkademik.secondWeek;
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      weekCount = 2 + Math.floor(diffDays / 7);
-      weekCount = Math.min(weekCount, 16);
+  }
+
+  return {
+    pertemuan: currentPertemuan,
+    status: `Pertemuan ke-${currentPertemuan}`
+  };
+}
+
+// Update tampilan
+function updateStatus() {
+  const hasil = hitungPertemuan();
+  document.getElementById("statusPertemuan").textContent = hasil.status;
+  document.getElementById("tanggalSekarang").textContent = "Tanggal: " + new Date().toLocaleDateString("id-ID");
+}
+
+updateStatus();
+setInterval(updateStatus, 60000); // update tiap 1 menit
+
+  }
+
     }
     
     return { 
-      pertemuan: weekCount,
-      status: `Pertemuan ke-${weekCount} (Minggu ke-${weekCount})`
-    };
-  }
-
   // Inisialisasi
   setInterval(updateDateTime, 1000);
   updateDateTime();

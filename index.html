@@ -324,7 +324,7 @@
 
   // Fungsi untuk memeriksa apakah waktu saat ini berada dalam jam kuliah
   function isWaktuKuliah(jamKuliah) {
-    const now = new Date('2025-12-25');
+    const now = new Date();
     const [startTime, endTime] = jamKuliah.split(' - ');
     
     const [startHour, startMinute] = startTime.split(':').map(Number);

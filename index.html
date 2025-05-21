@@ -233,27 +233,27 @@
     "Hukum Pajak": "Dedi Setiawan, S.H., M.H."
   };
 
-  // KALENDER AKADEMIK SEMESTER 3 2025/2026
-  function setToMidnight(date) {
-    date.sethours(0,0,0,0);
-    return date;
-  }
-  const kalenderAkademik = {
-    startDate:setToMidnight( new Date('2025-09-22'), // Pertemuan 1: 22 September 2025
-    midtermWeek:setToMidnight( new Date('2025-11-10'), // Pertemuan 8 (UTS): 10 November 2025
-    endDate:setToMidnight( new Date('2026-01-13'),    // Perkuliahan berakhir: 13 Januari 2026
-    holidays: [
-      { date:setToMidnight( new Date('2025-10-05'), name: "Hari Raya Idul Fitri 1446 H" },
-      { date:setToMidnight( new Date('2025-12-25'), name: "Hari Natal" },
-      { date:setToMidnight( new Date('2026-01-01'), name: "Tahun Baru 2026" }
-    ],
-    specialWeeks: {
-      7: { date:setToMidnight( new Date('2025-11-03'), name: "Minggu Tenang" },
-      8: { date:setToMidnight( new Date('2025-11-10'), name: "Ujian Tengah Semester" },
-      15: { date:setToMidnight( new Date('2025-12-29'), name: "Minggu Tenang" },
-      16: { date:setToMidnight( new Date('2026-01-06'), name: "Ujian Akhir Semester" }
+ function setToMidnight(date) {
+      date.setHours(0, 0, 0, 0);
+      return date;
     }
-  };
+
+    // Kalender Akademik Semester 3 Ilmu Hukum 2025/2026
+    const kalenderAkademik = {
+      startDate: setToMidnight(new Date('2025-09-22')), // Pertemuan 1
+      midtermWeek: setToMidnight(new Date('2025-11-10')), // Pertemuan 8
+      endDate: setToMidnight(new Date('2026-01-13')), // Akhir kuliah
+      holidays: [
+        { date: setToMidnight(new Date('2025-12-25')), name: "Hari Natal" },
+        { date: setToMidnight(new Date('2026-01-01')), name: "Tahun Baru 2026" }
+      ],
+      specialWeeks: {
+        7: { date: setToMidnight(new Date('2025-11-03')), name: "Minggu Tenang" },
+        8: { date: setToMidnight(new Date('2025-11-10')), name: "Ujian Tengah Semester" },
+        15: { date: setToMidnight(new Date('2025-12-29')), name: "Minggu Tenang" },
+        16: { date: setToMidnight(new Date('2026-01-06')), name: "Ujian Akhir Semester" }
+      }
+    };
 
   // Jadwal mata kuliah berdasarkan hari (0=Minggu, 1=Senin, ..., 6=Sabtu) beserta jam
   const jadwalKuliah = {

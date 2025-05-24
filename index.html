@@ -249,45 +249,48 @@
 
   // Kalender Akademik Semester 3 Ilmu Hukum 2025/2026
   const pertemuanDates = [
-    setToMidnight(new Date('2025-03-17')), // Pertemuan 1
-    setToMidnight(new Date('2025-04-07')), // Pertemuan 2
-    setToMidnight(new Date('2025-04-14')),
-    setToMidnight(new Date('2025-04-21')),
-    setToMidnight(new Date('2025-04-28')),
-    setToMidnight(new Date('2025-05-05')),
-    setToMidnight(new Date('2025-05-12')),
-    setToMidnight(new Date('2025-05-19')),
-    setToMidnight(new Date('2025-06-02')),
-    setToMidnight(new Date('2025-06-09')),
-    setToMidnight(new Date('2025-06-16')),
-    setToMidnight(new Date('2025-06-23')),
-    setToMidnight(new Date('2025-06-30')),
-    setToMidnight(new Date('2025-07-07')),
-    setToMidnight(new Date('2025-07-14')),
-    setToMidnight(new Date('2025-07-21')), 
+    setToMidnight(new Date('2025-09-22')), // Pertemuan 1
+    setToMidnight(new Date('2025-09-29')), // Pertemuan 2
+    setToMidnight(new Date('2025-10-14')),
+    setToMidnight(new Date('2025-10-06')),
+    setToMidnight(new Date('2025-10-13')),
+    setToMidnight(new Date('2025-10-20')),
+    setToMidnight(new Date('2025-10-27')),
+    setToMidnight(new Date('2025-11-03')),
+    setToMidnight(new Date('2025-11-10')),
+    setToMidnight(new Date('2025-11-17')),
+    setToMidnight(new Date('2025-11-24')),
+    setToMidnight(new Date('2025-12-01')),
+    setToMidnight(new Date('2025-12-08')),
+    setToMidnight(new Date('2025-12-15')),
+    setToMidnight(new Date('2025-12-22')),
+    setToMidnight(new Date('2025-12-29')), 
+    setToMidnight(new Date('2026-01-05')),
+    setToMidnight(new Date('2026-01-12')),
+    setToMidnight(new Date('2026-01-19')),
+    setToMidnight(new Date('2026-01-26')),
+    
   ];
 
   const holidays = [
-    // Libur Idul Fitri 24 Maret - 6 April
+    // Minggu Tenang Ujian Tengah Semester
     ...Array.from({ length: 14 }, (_, i) => ({
-      date: setToMidnight(new Date(2025, 2, 24 + i)),
+      date: setToMidnight(new Date(2025, 10, 10 + i)),
       name: 'Libur Idul Fitri'
     })),
-    { date: setToMidnight(new Date('2025-05-29')), name: 'Kenaikan Isa Almasih' },
-    { date: setToMidnight(new Date('2025-06-01')), name: 'Hari Lahir Pancasila' },
-    { date: setToMidnight(new Date('2025-06-06')), name: 'Hari Raya Idul Adha' },
-    { date: setToMidnight(new Date('2025-06-27')), name: 'Tahun Baru Islam' }
+    { date: setToMidnight(new Date('2025-12-25')), name: 'Hari Raya Natal' },
+    { date: setToMidnight(new Date('2026-01-01')), name: 'Tahun Baru 2026 Masehi' },
   ];
 
   const specialWeeks = {
     8: {
-      startDate: setToMidnight(new Date('2025-05-22')),
-      endDate: setToMidnight(new Date('2025-05-28')),
+      startDate: setToMidnight(new Date('2025-11-17')),
+      endDate: setToMidnight(new Date('2025-11-21')),
       name: 'Ujian Tengah Semester'
     },
     16: {
-      startDate: setToMidnight(new Date('2025-07-21')),
-      endDate: setToMidnight(new Date('2025-07-24')),
+      startDate: setToMidnight(new Date('2025-01-19')),
+      endDate: setToMidnight(new Date('2025-01-22')),
       name: 'Ujian Akhir Semester'
     }
   };

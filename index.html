@@ -2,10 +2,10 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>Absensi dengan Kalender Akademik</title>
+  <title>Data Kehadiran Semester 3 2025-2026 </title>
   <style>
     body {
-      background-image: url('background.jpg');
+      background-image: url('backgund.jpg');
       background-size: cover;
       font-family: Arial, sans-serif;
       color: #000;
@@ -134,8 +134,8 @@
 <body>
 
 <div class="login" id="loginBox">
-  <img class="logo" src="Logo.jpg" alt="Logo" />
-  <h2>ILMU HUKUM SEMESTER 2</h2>
+  <img class="logo" src="logo.png" alt="Logo" />
+  <h2>ILMU HUKUM SEMESTER 3</h2>
   
   <div id="datetime"></div>
   <div id="infoPertemuan" class="info-pertemuan"></div>
@@ -231,13 +231,13 @@
 
   // Data dosen untuk setiap mata kuliah
   const dosenMatkul = {
-    "Pendidikan Kewarganegaraan": "Elvina Melinda, S.H., M.H.",
-    "Pendidikan Agama Islam": "Muarifudin, S.E., M.M.",
-    "Hukum Pidana": "Elvina Melinda, S.H., M.H.",
-    "Sosiologi dan Ilmu Budaya Dasar": "Elvina Melinda, S.H., M.H.",
-    "Bahasa Indonesia": "Dina Ulaya Aziizah, S.E., M.M.",
-    "Hukum Perdata": "Agan Sutanto, S.H., M.H.",
-    "Hukum Tata Negara": "Kusroh Lailiyah, S.H., M.H."
+    "Hukum Administrasi Negara": "Elvina Melinda, S.H., M.H.",
+    "Hukum Adat": "Muarifudin, S.E., M.M.",
+    "Hukum Islam dan Waris": "Elvina Melinda, S.H., M.H.",
+    "Hukum Dagang": "Elvina Melinda, S.H., M.H.",
+    "Hukum Internasional": "Dina Ulaya Aziizah, S.E., M.M.",
+    "Hukum Agraria": "Agan Sutanto, S.H., M.H.",
+    "Hukum Otonomi Daerah": "Kusroh Lailiyah, S.H., M.H."
   };
 
   // Fungsi untuk set waktu ke tengah malam
@@ -271,9 +271,9 @@
 
   const holidays = [
     // Minggu Tenang Ujian Tengah Semester
-    ...Array.from({ length: 14 }, (_, i) => ({
+    ...Array.from({ length: 7 }, (_, i) => ({
       date: setToMidnight(new Date(2025, 10, 10 + i)),
-      name: 'Libur Idul Fitri'
+      name: 'Minggu tenang Ujian Tengah Semester'
     })),
     { date: setToMidnight(new Date('2025-12-25')), name: 'Hari Raya Natal' },
     { date: setToMidnight(new Date('2026-01-01')), name: 'Tahun Baru 2026 Masehi' },
@@ -295,19 +295,20 @@
   // Jadwal mata kuliah berdasarkan hari (0=Minggu, 1=Senin, ..., 6=Sabtu) beserta jam
   const jadwalKuliah = {
     1: [ // Senin
-      { nama: "Pendidikan Kewarganegaraan", jam: "13:00 - 14:00" },
-      { nama: "Pendidikan Agama Islam", jam: "14:00 - 15:00" }
+      { nama: "Hukum Administrasi Negara", jam: "13:00 - 14:00" },
+      { nama: "Hukum Adat", jam: "14:00 - 15:00" }
     ],
     2: [ // Selasa
-      { nama: "Hukum Pidana", jam: "13:00 - 14:00" },
-      { nama: "Sosiologi dan Ilmu Budaya Dasar", jam: "14:00 - 15:00" }
+      { nama: "Hukum Islam dan Waris", jam: "13:00 - 14:00" },
+      { nama: "Hukum Dagang", jam: "14:00 - 15:00" }
     ],
     3: [ // Rabu
-      { nama: "Bahasa Indonesia", jam: "08:00 - 10:00" },
-      { nama: "Hukum Perdata", jam: "10:00 - 12:00" }
+      { nama: "Hukum Internasional", jam: "08:00 - 10:00" },
+      { nama: "Hukum Agraria", jam: "10:00 - 12:00" }
     ],
     4: [ // Kamis
-      { nama: "Hukum Tata Negara", jam: "13:30 - 15:30" }
+      { nama: "Hukum Otonomi Daerah", jam: "13:30 - 15:30" }
+       { nama: "Hukum Pajak", jam: "15:30 - 18:30" }
     ],
     5: [], // Jumat (tidak ada kelas)
     6: [], // Sabtu (tidak ada kelas)
@@ -315,42 +316,46 @@
   };
 
   const semuaMataKuliah = [
-    "Pendidikan Kewarganegaraan",
-    "Pendidikan Agama Islam",
-    "Hukum Pidana",
-    "Sosiologi dan Ilmu Budaya Dasar",
-    "Bahasa Indonesia",
-    "Hukum Perdata",
-    "Hukum Tata Negara"
+    "Hukum Administrasi Negara",
+    "Hukum Adat",
+    "Hukum Islam dan Waris",
+    "Hukum Dagang",
+    "Hukum Internasional",
+    "Hukum Agraria",
+    "Hukum Otonomi Daerah"
+    "Hukum Pajak"
   ];
 
   const dataAbsensi = {
     david: {
-      "Pendidikan Kewarganegaraan": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Pendidikan Agama Islam": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Hukum Pidana": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Sosiologi dan Ilmu Budaya Dasar": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Bahasa Indonesia": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Hukum Perdata": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Hukum Tata Negara": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] }
+      "Hukum Administrasi Negara": { hadir: [], tidakHadir: [] },
+      "Hukum Adat": { hadir: [], tidakHadir: [] },
+      "Hukum Islam dan Waris": { hadir: [], tidakHadir: [] },
+      "Hukum Dagang": { hadir: [], tidakHadir: [] },
+      "Hukum Internasional": { hadir: [], tidakHadir: [] },
+      "Hukum Agraria": { hadir: [], tidakHadir: [] },
+      "Hukum Otonomi Daerah": { hadir: [], tidakHadir: [] }
+      "Hukum Pajak": { hadir: [], tidakHadir: [] }
     },
     angga: {
-      "Pendidikan Kewarganegaraan": { hadir: [1,2,3,5,7,8], tidakHadir: [4,6] },
-      "Pendidikan Agama Islam": { hadir: [2,3,4,6,8], tidakHadir: [1,5,7] },
-      "Hukum Pidana": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Sosiologi dan Ilmu Budaya Dasar": { hadir: [1,2,4,5,6,7,8], tidakHadir: [3] },
-      "Bahasa Indonesia": { hadir: [1,2,3,4,6,7,8], tidakHadir: [5] },
-      "Hukum Perdata": { hadir: [2,3,4,5,6,7,8], tidakHadir: [1] },
-      "Hukum Tata Negara": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] }
+      "Hukum Administrasi Negara": { hadir: [], tidakHadir: [] },
+      "Hukum Adat": { hadir: [], tidakHadir: [] },
+      "Hukum Islam dan Waris": { hadir: [], tidakHadir: [] },
+      "Hukum Dagang": { hadir: [], tidakHadir: [] },
+      "Hukum Internasional": { hadir: [], tidakHadir: [] },
+      "Hukum Agraria": { hadir: [], tidakHadir: [] },
+      "Hukum Otonomi Daerah": { hadir: [], tidakHadir: [] }
+      "Hukum Pajak": { hadir: [], tidakHadir: [] }
     },
     abdu: {
-      "Pendidikan Kewarganegaraan": { hadir: [1,2,3,5,7,8], tidakHadir: [4,6] },
-      "Pendidikan Agama Islam": { hadir: [2,4,5,6,7,8], tidakHadir: [1,3] },
-      "Hukum Pidana": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Sosiologi dan Ilmu Budaya Dasar": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Bahasa Indonesia": { hadir: [1,2,3,5,6,7,8], tidakHadir: [4] },
-      "Hukum Perdata": { hadir: [2,3,4,5,6,7,8], tidakHadir: [1] },
-      "Hukum Tata Negara": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] }
+      "Hukum Administrasi Negara": { hadir: [], tidakHadir: [] },
+      "Hukum Adat": { hadir: [], tidakHadir: [] },
+      "Hukum Islam dan Waris": { hadir: [], tidakHadir: [] },
+      "Hukum Dagang": { hadir: [], tidakHadir: [] },
+      "Hukum Internasional": { hadir: [], tidakHadir: [] },
+      "Hukum Agraria": { hadir: [], tidakHadir: [] },
+      "Hukum Otonomi Daerah": { hadir: [], tidakHadir: [] }
+      "Hukum Pajak": { hadir: [], tidakHadir: [] }
     }
   };
 

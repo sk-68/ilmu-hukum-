@@ -248,7 +248,9 @@
   }
 
   // Kalender Akademik Semester 3 Ilmu Hukum 2025/2026
-  const pertemuanDates = [
+  ChatGPT
+Anda bilang:
+const pertemuanDates = [
     setToMidnight(new Date('2025-09-22')), // Pertemuan 1
     setToMidnight(new Date('2025-09-29')), // Pertemuan 2
     setToMidnight(new Date('2025-10-06')),
@@ -293,7 +295,261 @@
     16: {
       startDate: setToMidnight(new Date('2026-01-19')),
       endDate: setToMidnight(new Date('2026-01-22')),
+      name: 'Ujian Akhir Semester' apakah sudah benar menurutmu
+ChatGPT bilang:
+Struktur kode yang kamu buat sudah sangat baik, namun ada beberapa hal kecil yang perlu diperhatikan untuk memastikan validitas dan konsistensi data:
+
+1. Jumlah Pertemuan
+Kamu mendefinisikan 17 tanggal di pertemuanDates, tetapi yang umum adalah 16 pertemuan (termasuk UTS dan UAS).
+
+Kalau memang ingin 16 pertemuan, maka sebaiknya hapus salah satu (mungkin 2026-01-26), kecuali memang ada pertemuan tambahan.
+
+2. Minggu Tenang
+Sudah benar untuk dua periode: sebelum UTS (10–16 Nov) dan sebelum UAS (12–18 Jan).
+
+Format date: new Date(2025, 10, 10 + i) juga benar karena bulan 10 adalah November (bulan dalam Date dimulai dari 0 = Januari).
+
+3. Special Weeks (UTS & UAS)
+Sudah benar, UTS di minggu ke-8 (17–20 Nov 2025), dan UAS di minggu ke-16 (19–22 Jan 2026).
+
+Pastikan pertemuan ke-8 (2025-11-17) tidak berisi perkuliahan biasa, melainkan memang dijadikan UTS.
+
+Sama halnya untuk pertemuan ke-16.
+
+4. Tanggal Libur
+2025-12-25 (Natal) dan 2026-01-01 (Tahun Baru) sudah benar.
+
+Saran Perbaikan:
+Jika memang hanya ada 16 pertemuan, hapus baris ini:
+
+setToMidnight(new Date('2026-01-26')),
+Sehingga array pertemuanDates hanya punya 16 elemen.
+
+Jika kamu mau, saya bisa bantu validasi kalender akademik lengkap dari jadwal ini.
+
+Anda bilang:
+engga emang ditambah itu santai aja
+ChatGPT bilang:
+Oke, kalau memang sengaja ditambah jadi 17 pertemuan untuk fleksibilitas (misalnya buat pengganti kuliah yang tertunda atau sesi remedial), itu sah-sah saja. Dengan struktur seperti ini:
+
+UTS di minggu ke-8
+
+UAS di minggu ke-16
+
+Minggu tenang dan hari libur juga sudah diperhitungkan
+
+Tambahan pertemuan ke-17 tidak masalah
+
+Berarti sistem kamu sudah benar dan rapi, tinggal pastikan bahwa logika lain dalam aplikasi (seperti penentuan kehadiran, UTS/UAS, dan pengecualian libur) juga sinkron dengan struktur ini.
+
+Kalau ada kebutuhan tambahan seperti:
+
+Otomatis mendeteksi apakah suatu tanggal adalah minggu tenang
+
+Menandai pertemuan sebagai UTS/UAS
+
+Menyisipkan keterangan libur di tabel absensi
+
+Silakan beri tahu, saya bisa bantu lanjutkan kodenya.
+
+Anda bilang:
+sayangnya msih ga muncul nih
+ChatGPT bilang:
+Baik, agar bisa bantu lebih tepat, tolong beri tahu lebih detail:
+
+Apa yang "tidak muncul"?
+
+Apakah yang dimaksud pertemuanDates tidak muncul di tampilan?
+
+Atau libur (holidays) tidak dikenali?
+
+Atau minggu UTS/UAS tidak muncul di jadwal?
+
+Apakah kamu menggunakan kode ini di sistem absensi berbasis HTML/JavaScript?
+
+Kalau iya, apakah ada fungsi atau loop yang menampilkan pertemuanDates ke tabel atau DOM?
+
+Apakah fungsi setToMidnight() sudah didefinisikan?
+
+Jika belum, tambahkan fungsi ini:
+
+function setToMidnight(date) {
+  date.setHours(0, 0, 0, 0);
+  return date;
+}
+Contoh Debug Sederhana
+Jika ingin uji coba apakah pertemuanDates dan holidays sudah terisi benar:
+
+console.log('Pertemuan:', pertemuanDates);
+console.log('Libur:', holidays);
+Kalau console.log() tidak menampilkan hasil di browser console, mungkin ada kesalahan sintaks atau kode tidak dijalankan.
+
+Boleh kirim cuplikan lengkap kode atau struktur HTML tempat kamu ingin menampilkannya? Aku bisa bantu koreksi langsung.
+
+Anda bilang:
+ya semuanya malah 
+ChatGPT bilang:
+Oke, karena semuanya tidak muncul, ada kemungkinan besar penyebabnya salah satu dari ini:
+
+1. Fungsi setToMidnight Tidak Ada
+Pastikan kamu sudah punya fungsi ini sebelum kamu panggil setToMidnight(...):
+
+function setToMidnight(date) {
+  date.setHours(0, 0, 0, 0);
+  return date;
+}
+Kalau tidak ada, semua tanggal kamu akan error karena setToMidnight is not defined.
+
+2. Kode Tidak Dipanggil / Tidak Terhubung
+Pastikan skrip kamu:
+
+Ada di dalam tag <script> di file HTML,
+
+Atau kalau file eksternal, sudah dilink dengan benar:
+
+<script src="script.js"></script>
+Dan pastikan tag <script> ada di bawah HTML atau pakai window.onload.
+
+3. Cek di Console (F12)
+Buka developer tools (tekan F12 di browser),
+
+Klik tab Console,
+
+Lihat apakah ada pesan error seperti:
+
+Uncaught ReferenceError: setToMidnight is not defined
+4. Cek Apakah Kamu Menampilkan Hasil
+Misalnya kamu ingin menampilkan daftar pertemuan ke halaman HTML:
+
+pertemuanDates.forEach((date, index) => {
+  const p = document.createElement('p');
+  p.textContent = `Pertemuan ${index + 1}: ${date.toDateString()}`;
+  document.body.appendChild(p);
+});
+Kalau kamu hanya mendefinisikan array tanpa menampilkannya atau log ke console, ya memang “tidak muncul”.
+
+Kalau kamu mau, kirimkan cuplikan lengkap HTML + JavaScript, aku bantu betulkan secara langsung agar muncul hasilnya.
+
+Anda bilang:
+oke sebentar ya saya ksih yang benar dan berjalan trs di edit tnggal oleh kmu aja bntr ya
+ChatGPT bilang:
+Siap, silakan kirim kodenya yang sudah berjalan. Nanti saya bantu edit tanggalnya sesuai daftar pertemuanDates, holidays, dan specialWeeks yang kamu berikan sebelumnya.
+
+Anda bilang:
+const pertemuanDates = [
+    setToMidnight(new Date('2025-03-17')), // Pertemuan 1
+    setToMidnight(new Date('2025-04-07')), // Pertemuan 2
+    setToMidnight(new Date('2025-04-14')),
+    setToMidnight(new Date('2025-04-21')),
+    setToMidnight(new Date('2025-04-28')),
+    setToMidnight(new Date('2025-05-05')),
+    setToMidnight(new Date('2025-05-12')),
+    setToMidnight(new Date('2025-05-19')),
+    setToMidnight(new Date('2025-06-02')),
+    setToMidnight(new Date('2025-06-09')),
+    setToMidnight(new Date('2025-06-16')),
+    setToMidnight(new Date('2025-06-23')),
+    setToMidnight(new Date('2025-06-30')),
+    setToMidnight(new Date('2025-07-07')),
+    setToMidnight(new Date('2025-07-14')),
+    setToMidnight(new Date('2025-07-21')), 
+    setToMidnight(new Date('2025-07-28')),
+    setToMidnight(new Date('2025-08-04')),
+  ];
+
+  const holidays = [
+    // Libur Idul Fitri 24 Maret - 6 April
+    ...Array.from({ length: 14 }, (_, i) => ({
+      date: setToMidnight(new Date(2025, 2, 24 + i)),
+      name: 'Libur Idul Fitri'
+    })),
+    { date: setToMidnight(new Date('2025-05-29')), name: 'Kenaikan Isa Almasih' },
+    { date: setToMidnight(new Date('2025-06-01')), name: 'Hari Lahir Pancasila' },
+    { date: setToMidnight(new Date('2025-06-06')), name: 'Hari Raya Idul Adha' },
+    { date: setToMidnight(new Date('2025-06-27')), name: 'Tahun Baru Islam' }
+  ];
+
+  const specialWeeks = {
+    8: {
+      startDate: setToMidnight(new Date('2025-05-22')),
+      endDate: setToMidnight(new Date('2025-05-28')),
+      name: 'Ujian Tengah Semester'
+    },
+    16: {
+      startDate: setToMidnight(new Date('2025-07-21')),
+      endDate: setToMidnight(new Date('2025-07-24')),
       name: 'Ujian Akhir Semester'
+    } script ini sudah sesuai ekspektasi dan berjalan dengan normal,nah sekarang saya mau update nih pertemuan pertama itu tanggal 22 September 2025 , pertemuan ke 8 nya di atur ke 17 November 2025  dan uts nya juga dari 17-21 November ,dan Minggu tenang itu ada di 10-16 November, lanjut terus2 sampai pertemuan ke 15 di 5 Januari 2026 kayaknya,trs 12 Januari sampai 18 Januari 2026 Minggu tenang,dan UAS pada tanggal 19-22 Januari 2026 nah ada toleransi pertemuan ke 17 yang Brati sampai 26 Januari 2026 ayo buatin dong
+ChatGPT bilang:
+Berikut ini adalah update lengkap kode JavaScript kamu yang sudah disesuaikan dengan jadwal baru:
+
+Perubahan:
+Pertemuan pertama: 22 September 2025
+
+UTS: 17–21 November 2025
+
+Minggu tenang sebelum UTS: 10–16 November 2025
+
+Pertemuan ke-15: 5 Januari 2026
+
+Minggu tenang sebelum UAS: 12–18 Januari 2026
+
+UAS: 19–22 Januari 2026
+
+Pertemuan ke-17 (toleransi): 26 Januari 2026
+
+Kode Final:
+function setToMidnight(date) {
+  date.setHours(0, 0, 0, 0);
+  return date;
+}
+
+const pertemuanDates = [
+  setToMidnight(new Date('2025-09-22')), // Pertemuan 1
+  setToMidnight(new Date('2025-09-29')), // Pertemuan 2
+  setToMidnight(new Date('2025-10-06')),
+  setToMidnight(new Date('2025-10-13')),
+  setToMidnight(new Date('2025-10-20')),
+  setToMidnight(new Date('2025-10-27')),
+  setToMidnight(new Date('2025-11-03')),
+  setToMidnight(new Date('2025-11-17')), // Pertemuan 8 (UTS)
+  setToMidnight(new Date('2025-11-24')),
+  setToMidnight(new Date('2025-12-01')),
+  setToMidnight(new Date('2025-12-08')),
+  setToMidnight(new Date('2025-12-15')),
+  setToMidnight(new Date('2025-12-22')),
+  setToMidnight(new Date('2025-12-29')),
+  setToMidnight(new Date('2026-01-05')), // Pertemuan 15
+  setToMidnight(new Date('2026-01-19')), // Pertemuan 16 (UAS)
+  setToMidnight(new Date('2026-01-26'))  // Pertemuan 17 (toleransi)
+];
+
+const holidays = [
+  // Minggu Tenang sebelum UTS: 10–16 Nov 2025
+  ...Array.from({ length: 7 }, (_, i) => ({
+    date: setToMidnight(new Date(2025, 10, 10 + i)),
+    name: 'Minggu Tenang'
+  })),
+  // Minggu Tenang sebelum UAS: 12–18 Jan 2026
+  ...Array.from({ length: 7 }, (_, i) => ({
+    date: setToMidnight(new Date(2026, 0, 12 + i)),
+    name: 'Minggu Tenang'
+  })),
+  { date: setToMidnight(new Date('2025-12-25')), name: 'Hari Raya Natal' },
+  { date: setToMidnight(new Date('2026-01-01')), name: 'Tahun Baru 2026 Masehi' },
+];
+
+const specialWeeks = {
+  8: {
+    startDate: setToMidnight(new Date('2025-11-17')),
+    endDate: setToMidnight(new Date('2025-11-21')),
+    name: 'Ujian Tengah Semester'
+  },
+  16: {
+    startDate: setToMidnight(new Date('2026-01-19')),
+    endDate: setToMidnight(new Date('2026-01-22')),
+    name: 'Ujian Akhir Semester'
+  }
     }
   };
 

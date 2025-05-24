@@ -267,6 +267,7 @@
     ...Array.from({ length: 7 }, (_, i) => ({
       date: setToMidnight(new Date(2026, 0, 12 + i)), // Januari 12-18, 2026 (bulan 0 = Januari)
       name: 'Minggu tenang Ujian Akhir Semester'
+       })),
   ];
 
   const specialWeeks = {
@@ -276,8 +277,8 @@
       name: 'Ujian Tengah Semester'
     },
     16: {
-      startDate: setToMidnight(new Date('2025-01-19')),
-      endDate: setToMidnight(new Date('2025-01-22')),
+      startDate: setToMidnight(new Date('2026-01-19')),
+      endDate: setToMidnight(new Date('2026-01-22')),
       name: 'Ujian Akhir Semester'
     }
   };

@@ -254,13 +254,19 @@
   ];
 
   const holidays = [
-    // Minggu Tenang Ujian Tengah Semester
+    // Minggu Tenang Ujian Tengah Semester (10-16 November 2025)
     ...Array.from({ length: 7 }, (_, i) => ({
-      date: setToMidnight(new Date(2025, 10, 10 + i)),
+      date: setToMidnight(new Date(2025, 10, 10 + i)), // November 10-16, 2025 (bulan 10 = November)
       name: 'Minggu tenang Ujian Tengah Semester'
     })),
+    
     { date: setToMidnight(new Date('2025-12-25')), name: 'Hari Raya Natal' },
     { date: setToMidnight(new Date('2026-01-01')), name: 'Tahun Baru 2026 Masehi' },
+    
+    // Minggu Tenang Kedua (12-18 Januari 2026)
+    ...Array.from({ length: 7 }, (_, i) => ({
+      date: setToMidnight(new Date(2026, 0, 12 + i)), // Januari 12-18, 2026 (bulan 0 = Januari)
+      name: 'Minggu tenang Ujian Akhir Semester'
   ];
 
   const specialWeeks = {

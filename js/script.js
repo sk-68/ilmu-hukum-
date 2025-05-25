@@ -9,12 +9,13 @@
     angga: { password: 'angga', role: 'student', name: 'Angga', title: '' },
     
     // User dosen
+     // User dosen
     'pak agan': { 
       password: '123', 
       role: 'lecturer', 
       name: 'Agan Sutanto',
       title: 'S.H., M.H.',
-      matkul: 'Hukum Perdata',
+      matkul: ['Hukum Internasional', 'Hukum Agraria' , 'Hukum Otonomi Daerah' , 'Hukum Pajak'],
       greeting: 'Pak'
     },
     'bu elvina': { 
@@ -22,23 +23,7 @@
       role: 'lecturer', 
       name: 'Elvina Melinda',
       title: 'S.H., M.H.',
-      matkul: ['Hukum Pidana', 'Pendidikan Kewarganegaraan', 'Sosiologi dan Ilmu Budaya Dasar'],
-      greeting: 'Bu'
-    },
-    'pak arif': { 
-      password: '123', 
-      role: 'lecturer', 
-      name: 'Muarifudin',
-      title: 'S.E., M.M.',
-      matkul: 'Pendidikan Agama Islam',
-      greeting: 'Pak'
-    },
-    'bu dina': { 
-      password: '123', 
-      role: 'lecturer', 
-      name: 'Dina Ulaya Aziizah',
-      title: 'S.E., M.M.',
-      matkul: 'Bahasa Indonesia',
+      matkul: ['Hukum Administrasi Negara', 'Hukum Adat', 'Hukum Islam dan Waris'],
       greeting: 'Bu'
     },
     'bu lia': { 
@@ -46,7 +31,7 @@
       role: 'lecturer', 
       name: 'Kusroh Lailiyah',
       title: 'S.H., M.H.',
-      matkul: 'Hukum Tata Negara',
+      matkul: 'Hukum Dagang',
       greeting: 'Bu'
     }
   };

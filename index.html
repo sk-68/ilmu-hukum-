@@ -2,37 +2,48 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>Sistem Absensi Ilmu Hukum</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIAKAD Ilmu Hukum</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
 </head>
 <body>
 
-<div class="login" id="loginBox">
-  <img class="logo" src="img/Logo.jpg" alt="Logo" />
-  <h2>ILMU HUKUM SEMESTER 2</h2>
-  
-  <input type="text" id="username" placeholder="Username" />
-  <input type="password" id="password" placeholder="Password" />
-  <button onclick="login()">Masuk</button>
-  <p id="loginError"></p>
-</div>
+  <!-- ================= LOGIN PAGE ================= -->
+  <div id="loginBox" class="login-container">
+    <img src="logo.png" alt="Logo Kampus" class="logo" />
+    <h2>Login SIAKAD</h2>
 
-<div class="absensi" id="absensiBox" style="display:none;">
-  <div class="header-panel">
-    <div class="user-info">
-      <span id="greetingMessage"></span>
-      <span id="roleInfo"></span>
+    <div class="input-group">
+      <input type="text" id="username" placeholder="Username" required />
     </div>
-    <button onclick="logout()" class="logout-btn">Keluar</button>
-  </div>
-  
-  <nav id="roleNavigation" class="role-navigation"></nav>
-  
-  <div class="content-panel">
-    <div id="mainContent"></div>
-  </div>
-</div>
 
-<script src="js/script.js"></script>
+    <div class="input-group">
+      <input type="password" id="password" placeholder="Password" required />
+    </div>
+
+    <button onclick="login()">Login</button>
+    <p id="loginError" class="error"></p>
+  </div>
+
+  <!-- ================ DASHBOARD (MUNCUL SETELAH LOGIN) ================ -->
+  <div id="absensiBox" style="display: none">
+    <header>
+      <h2 id="greetingMessage"></h2>
+      <p id="roleInfo"></p>
+      <p id="dosenInfo"></p>
+      <p id="datetimeAbsensi"></p>
+      <p id="infoPertemuanAbsensi"></p>
+      <button onclick="logout()">Logout</button>
+    </header>
+
+    <section id="welcomeMessage">
+      <h3>Selamat datang di Sistem Absensi!</h3>
+    </section>
+
+    <section id="tables"></section>
+  </div>
+
 </body>
 </html>
+

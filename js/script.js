@@ -53,13 +53,14 @@
 
   // Data dosen untuk setiap mata kuliah
   const dosenMatkul = {
-    "Pendidikan Kewarganegaraan": "Elvina Melinda, S.H., M.H.",
-    "Pendidikan Agama Islam": "Muarifudin, S.E., M.M.",
-    "Hukum Pidana": "Elvina Melinda, S.H., M.H.",
-    "Sosiologi dan Ilmu Budaya Dasar": "Elvina Melinda, S.H., M.H.",
-    "Bahasa Indonesia": "Dina Ulaya Aziizah, S.E., M.M.",
-    "Hukum Perdata": "Agan Sutanto, S.H., M.H.",
-    "Hukum Tata Negara": "Kusroh Lailiyah, S.H., M.H."
+    "Hukum Administrasi Negara": "Elvina Melinda, S.H., M.H.",
+    "Hukum Adat": "Muarifudin, S.E., M.M.",
+    "Hukum Islam dan Waris": "Elvina Melinda, S.H., M.H.",
+    "Hukum Dagang": "Elvina Melinda, S.H., M.H.",
+    "Hukum Internasional": "Dina Ulaya Aziizah, S.E., M.M.",
+    "Hukum Agraria": "Agan Sutanto, S.H., M.H.",
+    "Hukum Otonomi Daerah": "Kusroh Lailiyah, S.H., M.H.",
+    "Hukum Pajak": "Agan Sutanto, S.H., M.H."
   };
 
   // Fungsi untuk set waktu ke tengah malam
@@ -71,31 +72,39 @@
 
   // Kalender Akademik Semester 3 Ilmu Hukum 2025/2026
   const pertemuanDates = [
-    setToMidnight(new Date('2025-03-17')), // Pertemuan 1
-    setToMidnight(new Date('2025-04-07')), // Pertemuan 2
-    setToMidnight(new Date('2025-04-14')),
-    setToMidnight(new Date('2025-04-21')),
-    setToMidnight(new Date('2025-04-28')),
-    setToMidnight(new Date('2025-05-05')),
-    setToMidnight(new Date('2025-05-12')),
-    setToMidnight(new Date('2025-05-19')),
-    setToMidnight(new Date('2025-06-02')),
-    setToMidnight(new Date('2025-06-09')),
-    setToMidnight(new Date('2025-06-16')),
-    setToMidnight(new Date('2025-06-23')),
-    setToMidnight(new Date('2025-06-30')),
-    setToMidnight(new Date('2025-07-07')),
-    setToMidnight(new Date('2025-07-14')),
-    setToMidnight(new Date('2025-07-21')), 
-    setToMidnight(new Date('2025-07-28')),
-    setToMidnight(new Date('2025-08-04')),
+    setToMidnight(new Date('2025-09-22')), // Pertemuan 1
+    setToMidnight(new Date('2025-09-29')), // Pertemuan 2
+    setToMidnight(new Date('2025-10-06')),
+    setToMidnight(new Date('2025-10-13')),
+    setToMidnight(new Date('2025-10-20')),
+    setToMidnight(new Date('2025-10-27')),
+    setToMidnight(new Date('2025-11-03')),
+    setToMidnight(new Date('2025-11-17')),
+    setToMidnight(new Date('2025-11-24')),
+    setToMidnight(new Date('2025-12-01')),
+    setToMidnight(new Date('2025-12-08')),
+    setToMidnight(new Date('2025-12-15')),
+    setToMidnight(new Date('2025-12-22')),
+    setToMidnight(new Date('2025-12-29')), 
+    setToMidnight(new Date('2026-01-05')),
+    setToMidnight(new Date('2026-01-19')),
+    setToMidnight(new Date('2026-01-26')),
   ];
 
   const holidays = [
-    // Libur Idul Fitri 24 Maret - 6 April
-    ...Array.from({ length: 14 }, (_, i) => ({
-      date: setToMidnight(new Date(2025, 2, 24 + i)),
-      name: 'Libur Idul Fitri'
+     // Minggu Tenang Ujian Tengah Semester (10-16 November 2025)
+    ...Array.from({ length: 7 }, (_, i) => ({
+      date: setToMidnight(new Date(2025, 10, 10 + i)), // November 10-16, 2025 (bulan 10 = November)
+      name: 'Minggu tenang Ujian Tengah Semester'
+    })),
+    
+    { date: setToMidnight(new Date('2025-12-25')), name: 'Hari Raya Natal' },
+    { date: setToMidnight(new Date('2026-01-01')), name: 'Tahun Baru 2026 Masehi' },
+    
+    // Minggu Tenang Kedua (12-18 Januari 2026)
+    ...Array.from({ length: 7 }, (_, i) => ({
+      date: setToMidnight(new Date(2026, 0, 12 + i)), // Januari 12-18, 2026 (bulan 0 = Januari)
+      name: 'Minggu tenang Ujian Akhir Semester'
     })),
     { date: setToMidnight(new Date('2025-05-29')), name: 'Kenaikan Isa Almasih' },
     { date: setToMidnight(new Date('2025-06-01')), name: 'Hari Lahir Pancasila' },
@@ -104,14 +113,14 @@
   ];
 
   const specialWeeks = {
-    8: {
-      startDate: setToMidnight(new Date('2025-05-22')),
-      endDate: setToMidnight(new Date('2025-05-28')),
+     8: {
+      startDate: setToMidnight(new Date('2025-11-17')),
+      endDate: setToMidnight(new Date('2025-11-21')),
       name: 'Ujian Tengah Semester'
     },
     16: {
-      startDate: setToMidnight(new Date('2025-07-21')),
-      endDate: setToMidnight(new Date('2025-07-24')),
+      startDate: setToMidnight(new Date('2026-01-19')),
+      endDate: setToMidnight(new Date('2026-01-22')),
       name: 'Ujian Akhir Semester'
     }
   };
@@ -119,19 +128,20 @@
   // Jadwal mata kuliah berdasarkan hari (0=Minggu, 1=Senin, ..., 6=Sabtu) beserta jam
   const jadwalKuliah = {
     1: [ // Senin
-      { nama: "Pendidikan Kewarganegaraan", jam: "13:00 - 14:00" },
-      { nama: "Pendidikan Agama Islam", jam: "14:00 - 15:00" }
+      { nama: "Hukum Administrasi Negara", jam: "13:00 - 14:00" },
+      { nama: "Hukum Adat", jam: "14:00 - 15:00" }
     ],
     2: [ // Selasa
-      { nama: "Hukum Pidana", jam: "13:00 - 14:00" },
-      { nama: "Sosiologi dan Ilmu Budaya Dasar", jam: "14:00 - 15:00" }
+      { nama: "Hukum Islam dan Waris", jam: "13:00 - 14:00" },
+      { nama: "Hukum Dagang", jam: "14:00 - 15:00" }
     ],
     3: [ // Rabu
-      { nama: "Bahasa Indonesia", jam: "08:00 - 10:00" },
-      { nama: "Hukum Perdata", jam: "10:00 - 12:00" }
+      { nama: "Hukum Internasional", jam: "08:00 - 10:00" },
+      { nama: "Hukum Agraria", jam: "10:00 - 12:00" }
     ],
     4: [ // Kamis
-      { nama: "Hukum Tata Negara", jam: "13:30 - 15:30" }
+      { nama: "Hukum Otonomi Daerah", jam: "13:30 - 15:30" },
+      { nama: "Hukum Pajak", jam: "15:30 - 18:30" }
     ],
     5: [], // Jumat (tidak ada kelas)
     6: [], // Sabtu (tidak ada kelas)
@@ -139,43 +149,46 @@
   };
 
   const semuaMataKuliah = [
-    "Pendidikan Kewarganegaraan",
-    "Pendidikan Agama Islam",
-    "Hukum Pidana",
-    "Sosiologi dan Ilmu Budaya Dasar",
-    "Bahasa Indonesia",
-    "Hukum Perdata",
-    "Hukum Tata Negara"
+    "Hukum Administrasi Negara",
+    "Hukum Adat",
+    "Hukum Islam dan Waris",
+    "Hukum Dagang",
+    "Hukum Internasional",
+    "Hukum Agraria",
+    "Hukum Otonomi Daerah",
+    "Hukum Pajak",
   ];
 
   const dataAbsensi = {
-    david: {
-      "Pendidikan Kewarganegaraan": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Pendidikan Agama Islam": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Hukum Pidana": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Sosiologi dan Ilmu Budaya Dasar": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Bahasa Indonesia": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Hukum Perdata": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Hukum Tata Negara": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] }
+   david: {
+      "Hukum Administrasi Negara": { hadir: [], tidakHadir: [] },
+      "Hukum Adat": { hadir: [], tidakHadir: [] },
+      "Hukum Islam dan Waris": { hadir: [], tidakHadir: [] },
+      "Hukum Dagang": { hadir: [], tidakHadir: [] },
+      "Hukum Internasional": { hadir: [], tidakHadir: [] },
+      "Hukum Agraria": { hadir: [], tidakHadir: [] },
+      "Hukum Otonomi Daerah": { hadir: [], tidakHadir: [] },
+      "Hukum Pajak": { hadir: [], tidakHadir: [] }
     },
     angga: {
-      "Pendidikan Kewarganegaraan": { hadir: [1,2,3,5,7,8], tidakHadir: [4,6] },
-      "Pendidikan Agama Islam": { hadir: [2,3,4,6,8], tidakHadir: [1,5,7] },
-      "Hukum Pidana": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Sosiologi dan Ilmu Budaya Dasar": { hadir: [1,2,4,5,6,7,8], tidakHadir: [3] },
-      "Bahasa Indonesia": { hadir: [1,2,3,4,6,7,8], tidakHadir: [5] },
-      "Hukum Perdata": { hadir: [2,3,4,5,6,7,8], tidakHadir: [1] },
-      "Hukum Tata Negara": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] }
+      "Hukum Administrasi Negara": { hadir: [], tidakHadir: [] },
+      "Hukum Adat": { hadir: [], tidakHadir: [] },
+      "Hukum Islam dan Waris": { hadir: [], tidakHadir: [] },
+      "Hukum Dagang": { hadir: [], tidakHadir: [] },
+      "Hukum Internasional": { hadir: [], tidakHadir: [] },
+      "Hukum Agraria": { hadir: [], tidakHadir: [] },
+      "Hukum Otonomi Daerah": { hadir: [], tidakHadir: [] },
+      "Hukum Pajak": { hadir: [], tidakHadir: [] }
     },
     abdu: {
-      "Pendidikan Kewarganegaraan": { hadir: [1,2,3,5,7,8], tidakHadir: [4,6] },
-      "Pendidikan Agama Islam": { hadir: [2,4,5,6,7,8], tidakHadir: [1,3] },
-      "Hukum Pidana": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Sosiologi dan Ilmu Budaya Dasar": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] },
-      "Bahasa Indonesia": { hadir: [1,2,3,5,6,7,8], tidakHadir: [4] },
-      "Hukum Perdata": { hadir: [2,3,4,5,6,7,8], tidakHadir: [1] },
-      "Hukum Tata Negara": { hadir: [1,2,3,4,5,6,7,8], tidakHadir: [] }
-    }
+      "Hukum Administrasi Negara": { hadir: [], tidakHadir: [] },
+      "Hukum Adat": { hadir: [], tidakHadir: [] },
+      "Hukum Islam dan Waris": { hadir: [], tidakHadir: [] },
+      "Hukum Dagang": { hadir: [], tidakHadir: [] },
+      "Hukum Internasional": { hadir: [], tidakHadir: [] },
+      "Hukum Agraria": { hadir: [], tidakHadir: [] },
+      "Hukum Otonomi Daerah": { hadir: [], tidakHadir: [] },
+      "Hukum Pajak": { hadir: [], tidakHadir: [] }
   };
 
   // Fungsi untuk memeriksa apakah waktu saat ini berada dalam jam kuliah

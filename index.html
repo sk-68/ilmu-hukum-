@@ -2,40 +2,113 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>Data Kehadiran Semester 3 2025/2026</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SIAKAD Ilmu Hukum</title>
+
+  <!-- GANTI NAMA FILE CSS DI SINI JIKA PERLU -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- GANTI NAMA FILE JS DI SINI JIKA PERLU -->
+  <script defer src="script.js"></script>
 </head>
 <body>
 
-<div class="login" id="loginBox">
-  <img class="logo" src="img/Logo.png" alt="Logo" />
-  <h2>ILMU HUKUM SEMESTER 3</h2>
+  <!-- ========== HALAMAN LOGIN ========== -->
+  <div class="login-page">
+    <!-- GANTI LOGO DI SINI -->
+    <img src="logo-kampus.jpg" alt="Logo Kampus" class="logo" />
 
-  <div id="datetime"></div>
-  <div id="infoPertemuan" class="info-pertemuan"></div>
-  <div class="jadwal-hari-ini" id="jadwalHariIni">
-    <h3>Jadwal Kuliah Hari Ini</h3>
-    <div id="listMatkul"></div>
+    <!-- GANTI NAMA KAMPUS / SIAKAD DI SINI -->
+    <h1>SIAKAD - Ilmu Hukum Semester 3</h1>
+
+    <form id="login-form">
+      <label for="role">Pilih Peran:</label>
+      <select id="role" required>
+        <option value="">-- Pilih --</option>
+        <option value="admin">Admin</option>
+        <option value="dosen">Dosen</option>
+        <option value="mahasiswa">Mahasiswa</option>
+      </select>
+
+      <label for="username">Username:</label>
+      <input type="text" id="username" required placeholder="Masukkan Username" />
+
+      <button type="submit">Login</button>
+    </form>
   </div>
 
-  <input type="text" id="username" placeholder="Username" /><br /><br />
-  <input type="password" id="password" placeholder="Password" /><br /><br />
-  <button onclick="login()">Masuk</button>
-  <p id="loginError"></p>
-</div>
+  <!-- ========== HALAMAN ADMIN ========== -->
+  <div id="admin-dashboard" class="dashboard hidden">
+    <aside class="sidebar">
+      <h2>ADMIN</h2>
+      <ul>
+        <li class="menu" onclick="showPage('admin', 'data-mhs')">Data Mahasiswa</li>
+        <li class="menu" onclick="showPage('admin', 'data-dosen')">Data Dosen</li>
+        <li class="menu" onclick="showPage('admin', 'kalender')">Kalender Akademik</li>
+      </ul>
+    </aside>
+    <main class="content">
+      <div id="admin-data-mhs" class="page-content"> <!-- KAMU EDIT DI SINI -->
+        <h3>Data Mahasiswa</h3>
+        <p>Isi dengan tabel mahasiswa...</p>
+      </div>
+      <div id="admin-data-dosen" class="page-content hidden">
+        <h3>Data Dosen</h3>
+        <p>Isi dengan daftar dosen...</p>
+      </div>
+      <div id="admin-kalender" class="page-content hidden">
+        <h3>Kalender Akademik</h3>
+        <p>Isi kalender akademik semester ini...</p>
+      </div>
+    </main>
+  </div>
 
-<div class="absensi" id="absensiBox" style="display:none;">
-  <div id="greetingMessage" class="greeting"></div>
-  <div id="welcomeMessage" class="welcome-message"></div>
-  <div id="roleInfo" class="role-info"></div>
-  <div id="dosenInfo" class="dosen-info"></div>
-  <div id="datetimeAbsensi"></div>
-  <div id="infoPertemuanAbsensi" class="info-pertemuan"></div>
-  <h2>Data Absensi</h2>
-  <div id="tables"></div>
-  <button onclick="logout()">Logout</button>
-</div>
+  <!-- ========== HALAMAN DOSEN ========== -->
+  <div id="dosen-dashboard" class="dashboard hidden">
+    <aside class="sidebar">
+      <h2>DOSEN</h2>
+      <ul>
+        <li class="menu" onclick="showPage('dosen', 'jadwal')">Jadwal Mengajar</li>
+        <li class="menu" onclick="showPage('dosen', 'absensi')">Absensi Mahasiswa</li>
+      </ul>
+    </aside>
+    <main class="content">
+      <div id="dosen-jadwal" class="page-content">
+        <h3>Jadwal Mengajar</h3>
+        <p>Isi dengan jadwal per dosen...</p>
+      </div>
+      <div id="dosen-absensi" class="page-content hidden">
+        <h3>Absensi Mahasiswa</h3>
+        <p>Isi dengan tabel absensi manual...</p>
+      </div>
+    </main>
+  </div>
 
-<script src="js/script.js"></script>
+  <!-- ========== HALAMAN MAHASISWA ========== -->
+  <div id="mahasiswa-dashboard" class="dashboard hidden">
+    <aside class="sidebar">
+      <h2>MAHASISWA</h2>
+      <ul>
+        <li class="menu" onclick="showPage('mahasiswa', 'jadwal-kuliah')">Jadwal Kuliah</li>
+        <li class="menu" onclick="showPage('mahasiswa', 'absen')">Absen Hari Ini</li>
+        <li class="menu" onclick="showPage('mahasiswa', 'riwayat')">Riwayat Kehadiran</li>
+      </ul>
+    </aside>
+    <main class="content">
+      <div id="mahasiswa-jadwal-kuliah" class="page-content">
+        <h3>Jadwal Kuliah</h3>
+        <p>Isi dengan jadwal mahasiswa...</p>
+      </div>
+      <div id="mahasiswa-absen" class="page-content hidden">
+        <h3>Absen Hari Ini</h3>
+        <p>Isi tombol absen dan komentar lucu...</p>
+      </div>
+      <div id="mahasiswa-riwayat" class="page-content hidden">
+        <h3>Riwayat Kehadiran</h3>
+        <p>Isi dengan presentase kehadiran + komentar lucu...</p>
+      </div>
+    </main>
+  </div>
+
 </body>
 </html>

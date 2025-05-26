@@ -356,168 +356,118 @@
     document.getElementById('password').value = '';
   }
 
-  function showAbsensi(user) {
-    const currentWeek = updateDateTime();
-    document.getElementById('loginBox').style.display = 'none';
-    document.getElementById('absensiBox').style.display = 'block';
+function showAbsensi(user) {
+  const currentWeek = updateDateTime();
+  document.getElementById('loginBox').style.display = 'none';
+  document.getElementById('absensiBox').style.display = 'block';
 
-    const container = document.getElementById('tables');
-    container.innerHTML = '';
+  const container = document.getElementById('tables');
+  container.innerHTML = '';
 
-    const userData = users[user];
-    const userRole = userData.role;
-    const userName = userData.name;
-    const userTitle = userData.title || '';
-    const userGreeting = userData.greeting || '';
+  const userData = users[user];
+  const userRole = userData.role;
+  const userName = userData.name;
+  const userTitle = userData.title || '';
+  const userGreeting = userData.greeting || '';
 
-    // Set welcome message based on role
-    document.getElementById('greetingMessage').textContent = `Selamat datang, ${userGreeting} ${userName} ${userTitle}`;
-    document.getElementById('welcomeMessage').style.display = 'none';
-    document.getElementById('roleInfo').textContent = `Anda login sebagai: ${userRole === 'admin' ? 'Administrator' : userRole === 'lecturer' ? 'Dosen' : 'Mahasiswa'}`;
-    
-    if (userRole === 'lecturer') {
-      document.getElementById('dosenInfo').textContent = `Mata kuliah yang diampu: ${Array.isArray(userData.matkul) ? userData.matkul.join(', ') : userData.matkul}`;
-    } else {
-      document.getElementById('dosenInfo').textContent = '';
-    }
+  // Set welcome message based on role
+  document.getElementById('greetingMessage').textContent = `Selamat datang, ${userGreeting} ${userName} ${userTitle}`;
+  document.getElementById('welcomeMessage').style.display = 'none';
+  document.getElementById('roleInfo').textContent = `Anda login sebagai: ${userRole === 'admin' ? 'Administrator' : userRole === 'lecturer' ? 'Dosen' : 'Mahasiswa'}`;
 
-    if (userRole === 'admin') {
-      // Tampilan untuk admin - semua data
-      semuaMataKuliah.forEach(matkul => {
-        const table = document.createElement('table');
-        const caption = document.createElement('caption');
-        caption.textContent = `${matkul} (Pertemuan ke-${currentWeek})`;
-        table.appendChild(caption);
-
-        // Info dosen
-        const dosenRow = table.insertRow();
-        const dosenCell = dosenRow.insertCell();
-        dosenCell.colSpan = 17;
-        dosenCell.textContent = `Dosen: ${dosenMatkul[matkul]}`;
-        dosenCell.style.textAlign = 'left';
-        dosenCell.style.fontStyle = 'italic';
-
-        // Header tabel
-        const header = table.insertRow();
-        header.insertCell().textContent = 'Nama Mahasiswa';
-        for(let p=1; p<=16; p++){
-          header.insertCell().textContent = p;
-        }
-
-        Object.keys(dataAbsensi).forEach(nama => {
-          const row = table.insertRow();
-          row.insertCell().textContent = nama.charAt(0).toUpperCase() + nama.slice(1);
-
-          const hadirArr = dataAbsensi[nama][matkul]?.hadir || [];
-          const tidakHadirArr = dataAbsensi[nama][matkul]?.tidakHadir || [];
-
-          for(let p=1; p<=16; p++){
-            const cell = row.insertCell();
-            if(hadirArr.includes(p)){
-              cell.textContent = "✔️";
-            } else if(tidakHadirArr.includes(p)){
-              cell.textContent = "❌";
-            } else {
-              cell.textContent = "";
-            }
-          }
-        });
-
-        container.appendChild(table);
-      });
-    } else if (userRole === 'lecturer') {
-      // Tampilan untuk dosen - hanya matkul yang diampu
-      const matkulDosen = Array.isArray(userData.matkul) ? userData.matkul : [userData.matkul];
-      
-      matkulDosen.forEach(matkul => {
-        const table = document.createElement('table');
-        const caption = document.createElement('caption');
-        caption.textContent = `${matkul} (Pertemuan ke-${currentWeek})`;
-        table.appendChild(caption);
-
-        // Header tabel
-        const header = table.insertRow();
-        header.insertCell().textContent = 'Nama Mahasiswa';
-        for(let p=1; p<=16; p++){
-          header.insertCell().textContent = p;
-        }
-
-        Object.keys(dataAbsensi).forEach(nama => {
-          const row = table.insertRow();
-          row.insertCell().textContent = nama.charAt(0).toUpperCase() + nama.slice(1);
-
-          const hadirArr = dataAbsensi[nama][matkul]?.hadir || [];
-          const tidakHadirArr = dataAbsensi[nama][matkul]?.tidakHadir || [];
-
-          for(let p=1; p<=16; p++){
-            const cell = row.insertCell();
-            if(hadirArr.includes(p)){
-              cell.textContent = "✔️";
-            } else if(tidakHadirArr.includes(p)){
-              cell.textContent = "❌";
-            } else {
-              cell.textContent = "";
-            }
-          }
-        });
-
-        container.appendChild(table);
-      });
-    } else {
-      // Tampilan untuk mahasiswa - hanya data dirinya sendiri
-      const hariIni = new Date().getDay();
-      const matkulHariIni = jadwalKuliah[hariIni].map(m => m.nama);
-      
-      const mataKuliahYangDitampilkan = matkulHariIni.length > 0 ? matkulHariIni : semuaMataKuliah;
-
-      if (matkulHariIni.length === 0) {
-        const info = document.createElement('p');
-        info.textContent = "Hari ini tidak ada jadwal kuliah. Menampilkan semua mata kuliah.";
-        container.appendChild(info);
-      }
-
-      mataKuliahYangDitampilkan.forEach(matkul => {
-        const table = document.createElement('table');
-        const caption = document.createElement('caption');
-        caption.textContent = `${matkul} (Pertemuan ke-${currentWeek})`;
-        table.appendChild(caption);
-
-        // Info dosen
-        const dosenRow = table.insertRow();
-        const dosenCell = dosenRow.insertCell();
-        dosenCell.colSpan = 17;
-        dosenCell.textContent = `Dosen: ${dosenMatkul[matkul]}`;
-        dosenCell.style.textAlign = 'left';
-        dosenCell.style.fontStyle = 'italic';
-
-        // Header tabel
-        const header = table.insertRow();
-        header.insertCell().textContent = 'Pertemuan';
-        for(let p=1; p<=16; p++){
-          header.insertCell().textContent = p;
-        }
-
-        const row = table.insertRow();
-        row.insertCell().textContent = 'Kehadiran';
-
-        const hadirArr = dataAbsensi[user][matkul]?.hadir || [];
-        const tidakHadirArr = dataAbsensi[user][matkul]?.tidakHadir || [];
-
-        for(let p=1; p<=16; p++){
-          const cell = row.insertCell();
-          if(hadirArr.includes(p)){
-            cell.textContent = "✔️";
-          } else if(tidakHadirArr.includes(p)){
-            cell.textContent = "❌";
-          } else {
-            cell.textContent = "";
-          }
-        }
-
-        container.appendChild(table);
-      });
-    }
+  if (userRole === 'lecturer') {
+    document.getElementById('dosenInfo').textContent = `Mata kuliah yang diampu: ${Array.isArray(userData.matkul) ? userData.matkul.join(', ') : userData.matkul}`;
+  } else {
+    document.getElementById('dosenInfo').textContent = '';
   }
+
+  // Fungsi bantu bikin kartu kehadiran
+  function buatKartuAbsensi(matkul, namaMahasiswa) {
+    const card = document.createElement('div');
+    card.classList.add('absensi-card');
+    card.style.border = '1px solid #ccc';
+    card.style.padding = '10px';
+    card.style.marginBottom = '10px';
+    card.style.borderRadius = '8px';
+    card.style.boxShadow = '2px 2px 5px rgba(0,0,0,0.1)';
+    card.style.width = '320px';
+    card.style.backgroundColor = '#fafafa';
+
+    const title = document.createElement('h3');
+    title.textContent = `${matkul} - ${namaMahasiswa.charAt(0).toUpperCase() + namaMahasiswa.slice(1)}`;
+    card.appendChild(title);
+
+    const dosenInfo = document.createElement('p');
+    dosenInfo.textContent = `Dosen: ${dosenMatkul[matkul] || '-'}`;
+    dosenInfo.style.fontStyle = 'italic';
+    card.appendChild(dosenInfo);
+
+    const hadirArr = dataAbsensi[namaMahasiswa]?.[matkul]?.hadir || [];
+    const tidakHadirArr = dataAbsensi[namaMahasiswa]?.[matkul]?.tidakHadir || [];
+    const totalPertemuan = 16;
+    const jumlahHadir = hadirArr.length;
+    const persentase = ((jumlahHadir / totalPertemuan) * 100).toFixed(1);
+
+    const persenElem = document.createElement('p');
+    persenElem.textContent = `Kehadiran: ${persentase}% (${jumlahHadir} dari ${totalPertemuan} pertemuan)`;
+    persenElem.style.fontWeight = 'bold';
+    card.appendChild(persenElem);
+
+    const listPertemuan = document.createElement('ul');
+    listPertemuan.style.paddingLeft = '20px';
+
+    for(let p=1; p<=totalPertemuan; p++){
+      const item = document.createElement('li');
+      if(hadirArr.includes(p)){
+        item.textContent = `Pertemuan ${p}: Hadir ✔️`;
+        item.style.color = 'green';
+      } else if(tidakHadirArr.includes(p)){
+        item.textContent = `Pertemuan ${p}: Tidak hadir ❌`;
+        item.style.color = 'red';
+      } else {
+        item.textContent = `Pertemuan ${p}: Belum tercatat`;
+        item.style.color = 'gray';
+      }
+      listPertemuan.appendChild(item);
+    }
+
+    card.appendChild(listPertemuan);
+
+    return card;
+  }
+
+  if (userRole === 'admin') {
+    // Admin lihat semua matkul dan semua mahasiswa dalam kartu
+    semuaMataKuliah.forEach(matkul => {
+      Object.keys(dataAbsensi).forEach(namaMahasiswa => {
+        container.appendChild(buatKartuAbsensi(matkul, namaMahasiswa));
+      });
+    });
+  } else if (userRole === 'lecturer') {
+    // Dosen lihat matkul yang diampu dan semua mahasiswa dalam kartu
+    const matkulDosen = Array.isArray(userData.matkul) ? userData.matkul : [userData.matkul];
+    matkulDosen.forEach(matkul => {
+      Object.keys(dataAbsensi).forEach(namaMahasiswa => {
+        container.appendChild(buatKartuAbsensi(matkul, namaMahasiswa));
+      });
+    });
+  } else {
+    // Mahasiswa lihat hanya matkulnya sendiri
+    const hariIni = new Date().getDay();
+    const matkulHariIni = jadwalKuliah[hariIni]?.map(m => m.nama) || [];
+    const mataKuliahYangDitampilkan = matkulHariIni.length > 0 ? matkulHariIni : semuaMataKuliah;
+
+    if (matkulHariIni.length === 0) {
+      const info = document.createElement('p');
+      info.textContent = "Hari ini tidak ada jadwal kuliah. Menampilkan semua mata kuliah.";
+      container.appendChild(info);
+    }
+
+    mataKuliahYangDitampilkan.forEach(matkul => {
+      container.appendChild(buatKartuAbsensi(matkul, user));
+    });
+  }
+}
 
   // Inisialisasi
   setInterval(updateDateTime, 1000);
